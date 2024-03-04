@@ -2,6 +2,8 @@ import dotenv from 'dotenv';
 import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 
+import authRoutes from './routes/auth.route';
+
 dotenv.config();
 
 // configs
@@ -17,6 +19,8 @@ app.use(express.json());
 app.use(cors());
 
 
+// routes
+app.use('/api/auth',authRoutes);
 
 
 // home route of this server
@@ -26,7 +30,7 @@ app.get('/', (req: Request, res: Response) => {
 
 // response for not found route
 app.use((req: Request, res: Response, next: NextFunction) => {
-    res.status(42).send({ message: "The specified route cannot be located or identified." })
+    res.status(404).send({ message: "The specified route cannot be located or identified." })
 })
 
 // response for server error
