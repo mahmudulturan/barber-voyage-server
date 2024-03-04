@@ -1,13 +1,14 @@
-import dotenv from 'dotenv';
+import { config as dotenvConfig } from 'dotenv';
+dotenvConfig();
 import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import passport from 'passport';
 import cookieParser from 'cookie-parser';
 import errorHandler from './errorHandlers/errorHandler';
-// routes
-import authRoutes from './routes/auth.route';
 
-dotenv.config();
+// routes
+import authRoutes from './routes/auth.routes';
+import userRoutes from './routes/user.routes';
 
 // configs
 import './configs/database';
@@ -28,7 +29,8 @@ app.use(cookieParser());
 // all routes
 
 // routes for authentication;
-app.use('/api/auth', authRoutes);
+app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/user', userRoutes);
 
 
 
