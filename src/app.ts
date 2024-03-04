@@ -20,7 +20,7 @@ app.use(cors());
 
 
 // routes
-app.use('/api/auth',authRoutes);
+app.use('/api/auth', authRoutes);
 
 
 // home route of this server
@@ -33,10 +33,10 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     res.status(404).send({ message: "The specified route cannot be located or identified." })
 })
 
-// response for server error
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-    res.status(500).send({ message: "Something broke" })
-})
+
+import errorHandler from './errorHandlers/errorHandler';
+// Use the error handler middleware
+app.use(errorHandler);
 
 
 export default app;

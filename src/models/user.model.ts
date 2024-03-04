@@ -9,16 +9,16 @@ export interface IUser extends Document {
 const userSchema: Schema = new mongoose.Schema({
     name: {
         type: String,
-        required: true
+        required: [true, "Name is missing, It must be required!"],
     },
     email: {
         type: String,
-        required: true,
-        unique: true
+        required: [true, "Email is missing, It must be required!"],
+        unique: true,
     },
     password: {
         type: String,
-        required: true
+        required: [true, "Password is missing, It must be required!"],
     }
 })
 

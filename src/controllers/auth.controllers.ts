@@ -1,17 +1,17 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import User, { IUser } from "../models/user.model";
 import bcrypt from 'bcrypt'
 
 const saltRounds = 10;
 
-export const registerUser = async (req: Request & { body: IUser }, res: Response) => {
+export const registerUser = async (req: Request & { body: IUser }, res: Response, next: NextFunction) => {
     try {
         const { name, email } = req.body;
 
         // find the user if exist return a message
         const isUserExist = await User.findOne({ email: email });
         if (isUserExist) {
-            return res.status(409).send({ success: false, message: "This email already exist!" })
+            return res.status(409).send({ success: false, error: "This email already exist!" })
         }
 
         // hashing the password before saving database 
@@ -25,10 +25,10 @@ export const registerUser = async (req: Request & { body: IUser }, res: Response
                 await newUser.save();
                 res.status(201).send({ success: true, message: "User created successfully!" });
             } catch (error) {
-                res.status(500).send({ success: false, error: (error as Error).message });
+                next(error);
             }
         })
     } catch (error) {
-        res.status(500).send({ error: (error as Error).message });
+        next(error);
     }
 }
