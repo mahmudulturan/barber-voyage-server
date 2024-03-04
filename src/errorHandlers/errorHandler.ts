@@ -15,7 +15,7 @@ const errorHandler = (err: MongooseError, req: Request, res: Response, next: Nex
     }
 
     // send the error status and error message
-    res.status(statusCode).send({ error: errorMessage });
+    res.status(statusCode).send({ success: false, error: errorMessage });
 }
 
 export default errorHandler;

@@ -1,3 +1,11 @@
+interface ICookieOptions {
+    httpOnly: boolean;
+    sameSite: "strict" | "lax" | "none" | boolean;
+    secure: boolean;
+    maxAge?: number;
+    expires?: Date;
+}
+
 import { NextFunction, Request, Response } from "express";
 import User, { IUser } from "../models/user.model";
 import bcrypt from 'bcrypt';
@@ -58,10 +66,11 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
                 const token = jwt.sign(userData, tokenSecret, { expiresIn: "30d" })
 
                 // cookie options
-                const cookieOptions: { httpOnly: boolean, sameSite: "strict" | "lax" | "none" | boolean, secure: boolean } = {
+                const cookieOptions: ICookieOptions = {
                     httpOnly: process.env.NODE_ENV === 'production',
                     sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
                     secure: process.env.NODE_ENV === 'production',
+                    expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
                 };
 
                 // response send to the client
@@ -77,3 +86,22 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
         next(error);
     }
 };
+
+
+// controller for logout a user
+export const logoutUser = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        // cookie options
+        const cookieOptions: ICookieOptions = {
+            httpOnly: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
+            secure: process.env.NODE_ENV === 'production',
+            maxAge: 0
+        };
+        res
+            .clearCookie("token", cookieOptions)
+            .send({ success: true, message: "Logout Successfull" })
+    } catch (error) {
+        next(error);
+    }
+}
