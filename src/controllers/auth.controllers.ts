@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken';
 
 const saltRounds = 10;
 
+// controller for register a user
 export const registerUser = async (req: Request & { body: IUser }, res: Response, next: NextFunction) => {
     try {
         const { name, email } = req.body;
@@ -34,7 +35,7 @@ export const registerUser = async (req: Request & { body: IUser }, res: Response
     }
 }
 
-
+// controller for login a user
 export const loginUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { email, password } = req.body;
@@ -67,7 +68,6 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
                 return res.status(200)
                     .cookie("token", token, cookieOptions)
                     .send({ success: true, message: "Login Successful!", user });
-                    
             }
             else {
                 return res.status(401).send({ success: false, message: "Wrong Password!" });
