@@ -4,13 +4,19 @@ import cors from 'cors';
 
 dotenv.config();
 
+// configs
+import './configs/database';
+
+
+
 // create app
 const app = express();
-
 
 // middlewares
 app.use(express.json());
 app.use(cors());
+
+
 
 
 // home route of this server
