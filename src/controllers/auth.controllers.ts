@@ -32,3 +32,24 @@ export const registerUser = async (req: Request & { body: IUser }, res: Response
         next(error);
     }
 }
+
+
+export const loginUser = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { email, password } = req.body;
+        const user = await User.findOne({ email: email });
+        if (!user) {
+            return res.status(404).send({ success: false, error: "User not found!" })
+        }
+        bcrypt.compare(password, user.password, (err, result) => {
+            if (result) {
+                return res.status(200).send({ success: true, message: "Login Successful!", user });
+            }
+            else {
+                return res.status(401).send({ success: false, message: "Wrong Password!" });
+            }
+        })
+    } catch (error) {
+        next(error);
+    }
+};
