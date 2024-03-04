@@ -6,13 +6,10 @@
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Running the Application](#running-the-application)
-- [API Endpoints](#api-endpoints)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Introduction
 
-Barber Voyage is a server-side application designed to manage user authentication and data for a barber shop management system. This README provides instructions on how to set up, run, and contribute to the project.
+Barber Voyage Server is a server-side application of Barber Voayage Project. This README provides instructions on how to set up, run, and contribute to the project.
 
 ## Prerequisites
 
@@ -28,11 +25,11 @@ git clone https://github.com/mahmudulturan/barber-voyage-server.git
    Or download the repository as a ZIP file from GitHub.
 
 2. Navigate to the project directory:
-    cd barber-voyage-server
+    `cd barber-voyage-server`
 
 
 3. Install the project dependencies:
-    npm install
+    `npm install`
 
 
 4. Create a `.env` file in the root directory of the project and add the necessary environment variables (refer to `.env.example` for required variables).
@@ -46,11 +43,5 @@ git clone https://github.com/mahmudulturan/barber-voyage-server.git
     `npm run dev`
 
 
-
 3. The server will start, and you can access it at `http://localhost:5000` (or the port specified in your `.env` file).
 
-## API Endpoints
-
-- **POST /api/v1/auth/register**: Register a new user.
-- **POST /api/v1/auth/login**: Authenticate a user and return a JWT token.
-- **GET /api/v1/auth/logout**: Log out a user and clear the authentication token.
