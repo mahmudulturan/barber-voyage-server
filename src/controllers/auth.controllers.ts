@@ -71,7 +71,7 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
                     // sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
                     // secure: process.env.NODE_ENV === 'production',
                     httpOnly: true,
-                    sameSite: "strict",
+                    sameSite: "none",
                     secure: true,
                     expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
                 };
@@ -101,7 +101,7 @@ export const logoutUser = async (req: Request, res: Response, next: NextFunction
             // sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
             // secure: process.env.NODE_ENV === 'production',
             httpOnly: true,
-            sameSite: "strict",
+            sameSite: "lax",
             secure: true,
             maxAge: 0
         };
