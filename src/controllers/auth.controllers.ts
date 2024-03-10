@@ -73,10 +73,11 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
                     expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
                 };
 
-                // response send to the client
+                const { password, ...userInfo } = user.toObject();
+
                 return res.status(200)
                     .cookie("token", token, cookieOptions)
-                    .send({ success: true, message: "Login Successful!", user });
+                    .send({ success: true, message: "Login Successful!", user: userInfo });
             }
             else {
                 return res.status(401).send({ success: false, message: "Wrong Password!" });
