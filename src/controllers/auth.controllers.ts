@@ -67,12 +67,9 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
 
                 // cookie options
                 const cookieOptions: ICookieOptions = {
-                    // httpOnly: process.env.NODE_ENV === 'production',
-                    // sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
-                    // secure: process.env.NODE_ENV === 'production',
-                    httpOnly: true,
-                    sameSite: "none",
-                    secure: true,
+                    httpOnly: process.env.NODE_ENV === 'production',
+                    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+                    secure: process.env.NODE_ENV === 'production',
                     expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
                 };
 
@@ -97,12 +94,9 @@ export const logoutUser = async (req: Request, res: Response, next: NextFunction
     try {
         // cookie options
         const cookieOptions: ICookieOptions = {
-            // httpOnly: process.env.NODE_ENV === 'production',
-            // sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
-            // secure: process.env.NODE_ENV === 'production',
-            httpOnly: true,
-            sameSite: "lax",
-            secure: true,
+            httpOnly: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+            secure: process.env.NODE_ENV === 'production',
             maxAge: 0
         };
         res
