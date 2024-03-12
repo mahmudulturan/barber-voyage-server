@@ -55,7 +55,12 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
         }
 
         // compare the hashing password
-        bcrypt.compare(password, user.password, (err, result) => {
+        if (typeof password === 'undefined') {
+            return res.status(400).send({ success: false, error: "Password is required!" });
+        }
+
+        // compare the hashing password
+        bcrypt.compare(password, user.password || "", (err, result) => {
             // if password matched then successfully logged in otherwise send a message
             if (result) {
 

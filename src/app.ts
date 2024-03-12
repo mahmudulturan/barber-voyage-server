@@ -36,6 +36,17 @@ app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/user', userRoutes);
 
 
+//google 
+app.get('/auth/google',
+    passport.authenticate('google', { scope: ['profile'] }));
+
+app.get('/auth/google/callback',
+    passport.authenticate('google', { failureRedirect: '/', successRedirect: "/" }),
+    function (req, res) {
+        res.send({message: "success"})
+    });
+
+
 
 // home route of this server
 app.get('/', (req: Request, res: Response) => {

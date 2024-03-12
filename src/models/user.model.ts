@@ -2,8 +2,9 @@ import mongoose, { Schema } from "mongoose";
 
 export interface IUser extends Document {
     email: string;
-    password: string;
+    password?: string;
     name: string;
+    googleId?: string;
 }
 
 const userSchema: Schema = new mongoose.Schema({
@@ -18,7 +19,12 @@ const userSchema: Schema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: [true, "Password is missing, It must be required!"],
+        required: false,
+    },
+    googleId: {
+        type: String,
+        unique: true,
+        sparse: true, 
     }
 })
 
