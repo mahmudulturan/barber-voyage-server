@@ -2,9 +2,9 @@
   "name": "barbar-voyage-server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "scripts": {
-    "start": "node ./src/index.js",
+    "start": "node ./dist/index.js",
     "dev": "nodemon --exec ts-node src/index.ts",
     "build": "tsc",
     "vercel-build": "npm run build",

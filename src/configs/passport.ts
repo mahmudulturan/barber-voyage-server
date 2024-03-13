@@ -1,6 +1,6 @@
 import passport from 'passport';
-import { ExtractJwt, Strategy, StrategyOptions, VerifiedCallback } from 'passport-jwt';
-import User, { IUser } from '../models/user.model';
+import { ExtractJwt, Strategy, StrategyOptions } from 'passport-jwt';
+import User from '../models/user.model';
 import { Request, } from 'express';
 import { GoogleCallbackParameters, Strategy as GoogleStrategy, Profile, VerifyCallback } from 'passport-google-oauth20';
 

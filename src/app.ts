@@ -24,22 +24,22 @@ import { IUser } from './models/user.model';
 // create app
 const app = express();
 
+
+// middlewares
+app.use(express.json());
+app.use(cors({
+    origin: ["http://localhost:3000" || "", process.env.LIVE_CLIENT_URL || ""],
+    credentials: true
+}));
+app.use(cookieParser());
 app.use(session({
     secret: process.env.GOOGLE_SESSION_SECRET || "",
     resave: false,
     saveUninitialized: true,
     cookie: { secure: process.env.NODE_ENV === 'production' }
 }))
-
-// middlewares
-app.use(express.json());
-app.use(cors({
-    origin: [process.env.LOCAL_CLIENT_URL || "", process.env.LIVE_CLIENT_URL || "", "http://localhost:5000"],
-    credentials: true
-}));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(cookieParser());
 
 
 
@@ -61,11 +61,12 @@ app.get('/auth/google/callback',
     passport.authenticate('google'),
     function (req, res) {
         const user: any = req.user;
-        // if(!user) return;
+
         // Generate a JWT token
         const userData = { email: user?.email, id: user._id };
         const token = jwt.sign(userData, tokenSecret, { expiresIn: "30d" })
-        console.log(token);
+
+        const redirectURL = process.env.NODE_ENV === "production" ? process.env.LIVE_CLIENT_URL : process.env.LOCAL_CLIENT_URL;
 
         // cookie options
         const cookieOptions: ICookieOptions = {
@@ -77,7 +78,7 @@ app.get('/auth/google/callback',
 
         // Set the JWT token in a cookie directly within the strategy callback
         res.cookie('token', token, cookieOptions)
-        .redirect('/')
+            .redirect(redirectURL || "/error")
     });
 
 
