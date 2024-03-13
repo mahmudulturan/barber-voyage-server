@@ -38,7 +38,7 @@ const callbackURL = process.env.NODE_ENV === "production" ? process.env.LIVE_SER
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID!,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    callbackURL: `${callbackURL}/auth/google/callback`,
+    callbackURL: `${callbackURL}/api/v1/auth/google/callback`,
     passReqToCallback: true,
     scope: ['profile', 'email']
 }, async (req: Request, accessToken: string, refreshToken: string, params: GoogleCallbackParameters, profile: Profile, cb: VerifyCallback) => {

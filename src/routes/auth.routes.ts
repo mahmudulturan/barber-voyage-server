@@ -1,7 +1,8 @@
 import express from 'express';
-import { loginUser, logoutUser, registerUser } from '../controllers/auth.controllers';
+import { loginUser, loginWithGoogle, logoutUser, registerUser } from '../controllers/auth.controllers';
 
 const router = express.Router();
+import passport from 'passport';
 
 router
     /**
@@ -44,7 +45,27 @@ router
     .get('/logout', logoutUser)
 
 
+
+router
+    /**
+     * @route GET /api/v1/auth/google
+     * @group Authentication - Operations about user authentication
+     * @produces application/json
+     * @returns {object} 302 - Redirects the user to Google's sign-in page.
+     */
+    .get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+
     
-    
+router
+    /**
+     * @route GET /api/v1/auth/google/callback
+     * @group Authentication - Operations about user authentication
+     * @produces application/json
+     * @returns {object} 200 - An object containing the user information and a success message if authentication is successful.
+     * @returns {object} 500 - An object containing an error message if there's a server error.
+     */
+    .get('/google/callback', passport.authenticate('google'), loginWithGoogle);
+
 
 export default router;

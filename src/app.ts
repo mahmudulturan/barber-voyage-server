@@ -49,39 +49,6 @@ app.use(passport.session());
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/user', userRoutes);
 
-const tokenSecret = process.env.JWT_TOKEN;
-if (!tokenSecret) throw new Error("JWT_TOKEN is missing in env file");
-
-
-//google 
-app.get('/auth/google',
-    passport.authenticate('google', { scope: ['profile', 'email'] }));
-
-app.get('/auth/google/callback',
-    passport.authenticate('google'),
-    function (req, res) {
-        const user: any = req.user;
-
-        // Generate a JWT token
-        const userData = { email: user?.email, id: user._id };
-        const token = jwt.sign(userData, tokenSecret, { expiresIn: "30d" })
-
-        const redirectURL = process.env.NODE_ENV === "production" ? process.env.LIVE_CLIENT_URL : process.env.LOCAL_CLIENT_URL;
-
-        // cookie options
-        const cookieOptions: ICookieOptions = {
-            httpOnly: process.env.NODE_ENV === 'production',
-            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-            secure: process.env.NODE_ENV === 'production',
-            expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
-        };
-
-        // Set the JWT token in a cookie directly within the strategy callback
-        res.cookie('token', token, cookieOptions)
-            .redirect(redirectURL || "/error")
-    });
-
-
 
 // home route of this server
 app.get('/', (req: Request, res: Response) => {

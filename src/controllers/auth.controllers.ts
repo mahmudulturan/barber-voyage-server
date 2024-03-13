@@ -106,3 +106,30 @@ export const logoutUser = async (req: Request, res: Response, next: NextFunction
         next(error);
     }
 }
+
+
+// Controller function for handling Google authentication callback
+export const loginWithGoogle = (req: Request, res: Response) => {
+    const tokenSecret = process.env.JWT_TOKEN;
+    if (!tokenSecret) throw new Error("JWT_TOKEN is missing in env file");
+
+    const user: any = req.user;
+
+    // Generate a JWT token
+    const userData = { email: user.email, id: user._id };
+    const token = jwt.sign(userData, tokenSecret, { expiresIn: "30d" });
+
+    // Determine redirect URL based on environment
+    const redirectURL = process.env.NODE_ENV === "production" ? process.env.LIVE_CLIENT_URL : process.env.LOCAL_CLIENT_URL;
+
+    // Cookie options
+    const cookieOptions: ICookieOptions = {
+        httpOnly: process.env.NODE_ENV === 'production',
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        secure: process.env.NODE_ENV === 'production',
+        expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+    };
+
+    // Set the JWT token in a cookie and redirect
+    res.cookie('token', token, cookieOptions).redirect(redirectURL || "/error");
+}
