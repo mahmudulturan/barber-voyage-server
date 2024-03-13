@@ -5,6 +5,9 @@ import cors from 'cors';
 import passport from 'passport';
 import cookieParser from 'cookie-parser';
 import errorHandler from './errorHandlers/errorHandler';
+import session from 'express-session';
+import jwt from 'jsonwebtoken';
+
 
 // routes
 import authRoutes from './routes/auth.routes';
@@ -13,20 +16,31 @@ import userRoutes from './routes/user.routes';
 // configs
 import './configs/database';
 import './configs/passport';
+import { ICookieOptions } from './types/types';
+import { IUser } from './models/user.model';
 
 
 
 // create app
 const app = express();
 
+
 // middlewares
 app.use(express.json());
 app.use(cors({
-    origin: [process.env.LOCAL_CLIENT_URL || "", process.env.LIVE_CLIENT_URL || ""],
+    origin: ["http://localhost:3000" || "", process.env.LIVE_CLIENT_URL || ""],
     credentials: true
 }));
-app.use(passport.initialize());
 app.use(cookieParser());
+app.use(session({
+    secret: process.env.GOOGLE_SESSION_SECRET || "",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: process.env.NODE_ENV === 'production' }
+}))
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 
 // all routes
@@ -34,18 +48,6 @@ app.use(cookieParser());
 // routes for authentication;
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/user', userRoutes);
-
-
-//google 
-app.get('/auth/google',
-    passport.authenticate('google', { scope: ['profile', 'email'] }));
-
-app.get('/auth/google/callback',
-    passport.authenticate('google'),
-    function (req, res) {
-        res.send({ message: "success" })
-    });
-
 
 
 // home route of this server
