@@ -1,15 +1,10 @@
-interface ICookieOptions {
-    httpOnly: boolean;
-    sameSite: "strict" | "lax" | "none" | boolean;
-    secure: boolean;
-    maxAge?: number;
-    expires?: Date;
-}
+
 
 import { NextFunction, Request, Response } from "express";
 import User, { IUser } from "../models/user.model";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { ICookieOptions } from "../types/types";
 
 const saltRounds = 10;
 

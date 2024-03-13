@@ -1,7 +1,7 @@
 import passport from 'passport';
 import { ExtractJwt, Strategy, StrategyOptions, VerifiedCallback } from 'passport-jwt';
 import User, { IUser } from '../models/user.model';
-import { Request } from 'express';
+import { Request, } from 'express';
 import { GoogleCallbackParameters, Strategy as GoogleStrategy, Profile, VerifyCallback } from 'passport-google-oauth20';
 
 const tokenSecret = process.env.JWT_TOKEN;
@@ -34,7 +34,6 @@ passport.use(new Strategy(options, async (jwt_payload, done) => {
 }));
 
 const callbackURL = process.env.NODE_ENV === "production" ? process.env.LIVE_SERVER_URL : process.env.LOCAL_SERVER_URL;
-console.log(callbackURL);
 
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID!,
@@ -56,7 +55,21 @@ passport.use(new GoogleStrategy({
         );
         return cb(null, user)
     } catch (error) {
-        console.log((error as Error).message);
-        return cb((error as Error), undefined)
+        return cb(error as Error);
     }
 }));
+
+
+
+passport.serializeUser((user: any, done) => {
+    done(null, user._id);
+});
+
+passport.deserializeUser(async (id: string, done) => {
+    try {
+        const user = await User.findById(id);
+        done(null, user);
+    } catch (err) {
+        done(err, null);
+    }
+});
