@@ -5,6 +5,8 @@ const errorHandler = (err: MongooseError, req: Request, res: Response, next: Nex
     let statusCode = 0;
     let errorMessage = "";
 
+    console.log(err);
+
     // set the code and error message with error name
     if (err.name === 'ValidationError') {
         statusCode = 400;

@@ -42,6 +42,9 @@ router
      * @returns {object} 500 - An object containing an error message if there's a server error.
      */
     .get('/logout', logoutUser)
+
+
+    
     
 
 export default router;

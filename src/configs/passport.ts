@@ -33,27 +33,27 @@ passport.use(new Strategy(options, async (jwt_payload, done) => {
     }
 }));
 
+const callbackURL = process.env.NODE_ENV === "production" ? process.env.LIVE_SERVER_URL : process.env.LOCAL_SERVER_URL;
+console.log(callbackURL);
+
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID!,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    callbackURL: "http://localhost:5000/auth/google/callback",
+    callbackURL: `${callbackURL}/auth/google/callback`,
     passReqToCallback: true,
-    scope: ['profile', 'email'] // Add the 'email' scope here
+    scope: ['profile', 'email']
 }, async (req: Request, accessToken: string, refreshToken: string, params: GoogleCallbackParameters, profile: Profile, cb: VerifyCallback) => {
     try {
-        // Access the user's email from the profile object
-        // const email = profile.emails?.[0]?.value;
-        // if (!email) {
-        //     throw new Error("Email not found in Google profile. Please provide an email address.");
-        // }
-        const user = await User.findOne({ googleId: profile.id });
-        console.log(profile);
-        console.log('user', user);
-        if (!user) {
-            let newUser = new User({ googleId: profile.id, name: profile.displayName, email: 'email' }) 
-            await newUser.save();
-            return cb(null, newUser)
-        }
+        const email = profile.emails?.[0]?.value;
+        const image = profile.photos?.[0]?.value;
+        const user = await User.findOneAndUpdate(
+            { googleId: profile.id },
+            {
+                name: profile.displayName,
+                email: email,
+            },
+            { upsert: true, new: true, setDefaultsOnInsert: true }
+        );
         return cb(null, user)
     } catch (error) {
         console.log((error as Error).message);

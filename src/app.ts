@@ -38,12 +38,12 @@ app.use('/api/v1/user', userRoutes);
 
 //google 
 app.get('/auth/google',
-    passport.authenticate('google', { scope: ['profile'] }));
+    passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 app.get('/auth/google/callback',
-    passport.authenticate('google', { failureRedirect: '/', successRedirect: "/" }),
+    passport.authenticate('google'),
     function (req, res) {
-        res.send({message: "success"})
+        res.send({ message: "success" })
     });
 
 
