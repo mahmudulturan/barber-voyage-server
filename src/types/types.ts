@@ -19,31 +19,31 @@ export interface IUser extends Document {
     password?: string;
     googleId?: string;
     role: string;
-    barberInfo?: mongoose.Types.ObjectId;
-    ownerInfo?: mongoose.Types.ObjectId;
-    adminInfo?: mongoose.Types.ObjectId;
+    barberInfo?: Types.ObjectId;
+    ownerInfo?: Types.ObjectId;
+    adminInfo?: Types.ObjectId;
 }
 
 
 //interface for barberSchema
 export interface IBarber extends Document {
-    userInfo: mongoose.Types.ObjectId;
+    userInfo: Types.ObjectId;
     hiredAt: {
         joinedDate: Date;
-        shopInfo: mongoose.Types.ObjectId;
+        shopInfo: Types.ObjectId;
     };
     experience: string;
     specialties: string[];
     document: string;
-    reviews: mongoose.Types.ObjectId[];
-    bookings: mongoose.Types.ObjectId[];
+    reviews: Types.ObjectId[];
+    bookings: Types.ObjectId[];
 }
 
 
 //interface for ownerSchema
 export interface IOwner extends Document {
-    userInfo: mongoose.Types.ObjectId;
-    shopInfo: mongoose.Types.ObjectId;
+    userInfo: Types.ObjectId;
+    shopInfo: Types.ObjectId;
     experience: string;
     specialties: string[];
 }
@@ -51,7 +51,7 @@ export interface IOwner extends Document {
 
 //interface for adminSchema
 export interface IAdmin extends Document {
-    userInfo: mongoose.Types.ObjectId;
+    userInfo: Types.ObjectId;
     adminSince: Date;
 }
 
@@ -59,24 +59,24 @@ export interface IAdmin extends Document {
 //interface for shopSchema
 export interface IShop extends Document {
     name: string;
-    ownerInfo: mongoose.Types.ObjectId;
-    barbers: mongoose.Types.ObjectId[];
+    ownerInfo: Types.ObjectId;
+    barbers: Types.ObjectId[];
     shopImages: string[];
     license: string;
-    reviews: mongoose.Types.ObjectId[];
+    reviews: Types.ObjectId[];
     location: object;
     services: string[];
-    bookings: mongoose.Types.ObjectId[];
+    bookings: Types.ObjectId[];
 }
 
 //interface for bookingSchema
 export interface IBooking extends Document {
-    shopInfo: mongoose.Types.ObjectId;
-    barberInfo: mongoose.Types.ObjectId;
-    userInfo: mongoose.Types.ObjectId;
+    shopInfo: Types.ObjectId;
+    barberInfo: Types.ObjectId;
+    userInfo: Types.ObjectId;
     service: string;
     price: number;
-    transactionInfo: mongoose.Types.ObjectId;
+    transactionInfo: Types.ObjectId;
     bookingTime: Date;
     estimatedAppoinmentTime: Date;
     estimatedDuration: string;
@@ -84,8 +84,8 @@ export interface IBooking extends Document {
 
 //interface for paymentSchema
 export interface IPayment extends Document {
-    bookingInfo: mongoose.Types.ObjectId;
-    userInfo: mongoose.Types.ObjectId;
+    bookingInfo: Types.ObjectId;
+    userInfo: Types.ObjectId;
     amount: number;
     price: number;
     transactionID: number;
