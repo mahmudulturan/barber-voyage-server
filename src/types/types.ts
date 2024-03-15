@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Document } from "mongoose";
 
 export interface ICookieOptions {
     httpOnly: boolean;
@@ -20,7 +20,20 @@ export interface IUser extends Document {
     adminInfo?: mongoose.Types.ObjectId;
 }
 
-export interface IShop {
+export interface IBarber extends Document {
+    userInfo: mongoose.Types.ObjectId;
+    hiredAt: {
+        joinedDate: Date;
+        shopInfo: mongoose.Types.ObjectId;
+    };
+    experience: string;
+    specialties: string[];
+    document: string;
+    reviews: mongoose.Types.ObjectId[];
+    bookings: mongoose.Types.ObjectId[];
+}
+
+export interface IShop extends Document {
     _id: mongoose.Types.ObjectId;
     name: string;
     manager: string;
