@@ -6,40 +6,46 @@ const shopSchema: Schema = new mongoose.Schema({
         type: String,
         required: true
     },
-    manager: {
+    ownerInfo: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+        ref: "Owner",
         required: true
     },
-    barbers: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+    barbers: {
+        type: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        }],
         required: true
-    }],
-    shopImages: [{
-        type: String,
+    },
+    shopImages: {
+        type: [String],
         required: true
-    }],
+    },
     license: {
         type: String,
         required: true
     },
-    reviews: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Reviews",
-    }],
+    reviews: {
+        type: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Review"
+        }],
+    },
     location: {
         type: Object,
         required: true
     },
-    services: [{
-        type: String,
+    services: {
+        type: [String],
         required: true
-    }],
-    bookings: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Bookings",
-    }]
+    },
+    bookings: {
+        type: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Booking"
+        }],
+    }
 })
 
 const Shop = mongoose.model<IShop>("Shop", shopSchema);

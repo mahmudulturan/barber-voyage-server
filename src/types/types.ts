@@ -58,13 +58,12 @@ export interface IAdmin extends Document {
 
 //interface for shopSchema
 export interface IShop extends Document {
-    _id: mongoose.Types.ObjectId;
     name: string;
-    manager: string;
+    ownerInfo: mongoose.Types.ObjectId;
     barbers: mongoose.Types.ObjectId[];
-    images: string[];
+    shopImages: string[];
     license: string;
-    ratings: mongoose.Types.ObjectId[];
+    reviews: mongoose.Types.ObjectId[];
     location: object;
     services: string[];
     bookings: mongoose.Types.ObjectId[];
