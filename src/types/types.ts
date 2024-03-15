@@ -1,5 +1,6 @@
 import mongoose, { Document } from "mongoose";
 
+
 //interface for cookie options
 export interface ICookieOptions {
     httpOnly: boolean;
@@ -45,6 +46,13 @@ export interface IOwner extends Document {
     shopInfo: mongoose.Types.ObjectId;
     experience: string;
     specialties: string[];
+}
+
+
+//interface for adminSchema
+export interface IAdmin extends Document {
+    userInfo: mongoose.Types.ObjectId;
+    adminSince: Date;
 }
 
 
