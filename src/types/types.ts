@@ -1,5 +1,6 @@
 import mongoose, { Document } from "mongoose";
 
+//interface for cookie options
 export interface ICookieOptions {
     httpOnly: boolean;
     sameSite: "strict" | "lax" | "none" | boolean;
@@ -8,6 +9,8 @@ export interface ICookieOptions {
     expires?: Date;
 }
 
+
+//interface for userSchema
 export interface IUser extends Document {
     name: string;
     email: string;
@@ -20,6 +23,8 @@ export interface IUser extends Document {
     adminInfo?: mongoose.Types.ObjectId;
 }
 
+
+//interface for barberSchema
 export interface IBarber extends Document {
     userInfo: mongoose.Types.ObjectId;
     hiredAt: {
@@ -33,6 +38,17 @@ export interface IBarber extends Document {
     bookings: mongoose.Types.ObjectId[];
 }
 
+
+//interface for ownerSchema
+export interface IOwner extends Document {
+    userInfo: mongoose.Types.ObjectId;
+    shopInfo: mongoose.Types.ObjectId;
+    experience: string;
+    specialties: string[];
+}
+
+
+//interface for shopSchema
 export interface IShop extends Document {
     _id: mongoose.Types.ObjectId;
     name: string;
