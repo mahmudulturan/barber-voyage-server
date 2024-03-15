@@ -31,12 +31,16 @@ const barberSchema = new mongoose.Schema({
         required: true
     },
     reviews: {
-        type: [mongoose.Schema.Types.ObjectId],
-        ref: "Booking"
+        type: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Review"
+        }],
     },
     bookings: {
-        type: [mongoose.Schema.Types.ObjectId],
-        ref: "Booking"
+        type: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Booking"
+        }],
     },
 });
 
