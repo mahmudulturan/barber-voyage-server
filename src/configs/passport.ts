@@ -7,6 +7,7 @@ import { GoogleCallbackParameters, Strategy as GoogleStrategy, Profile, VerifyCa
 const tokenSecret = process.env.JWT_TOKEN;
 if (!tokenSecret) throw new Error("JWT_TOKEN is missing in env file");
 
+// function for getting cookie from req.cookies
 const cookieExtractor = (req: Request) => {
     let token = null;
     if (req && req.cookies) {
@@ -15,11 +16,13 @@ const cookieExtractor = (req: Request) => {
     return token;
 };
 
+// options for get tplem from cookie
 const options: StrategyOptions = {
     jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
     secretOrKey: tokenSecret,
 };
 
+// stratagy for jwt
 passport.use(new Strategy(options, async (jwt_payload, done) => {
     try {
         const user = await User.findOne({ _id: jwt_payload.id }).select("-password");
@@ -33,8 +36,11 @@ passport.use(new Strategy(options, async (jwt_payload, done) => {
     }
 }));
 
+
+// callback url for google authentication
 const callbackURL = process.env.NODE_ENV === "production" ? process.env.LIVE_SERVER_URL : process.env.LOCAL_SERVER_URL;
 
+// stratagy for gogle
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID!,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
@@ -50,6 +56,7 @@ passport.use(new GoogleStrategy({
             {
                 name: profile.displayName,
                 email: email,
+                image
             },
             { upsert: true, new: true, setDefaultsOnInsert: true }
         );
@@ -60,10 +67,10 @@ passport.use(new GoogleStrategy({
 }));
 
 
-
 passport.serializeUser((user: any, done) => {
     done(null, user._id);
 });
+
 
 passport.deserializeUser(async (id: string, done) => {
     try {

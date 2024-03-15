@@ -1,17 +1,17 @@
 
 
 import { NextFunction, Request, Response } from "express";
-import User, { IUser } from "../models/user.model";
+import User from "../models/user.model";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { ICookieOptions } from "../types/types";
+import { ICookieOptions, IUser } from "../types/types";
 
 const saltRounds = 10;
 
 // controller for register a user
 export const registerUser = async (req: Request & { body: IUser }, res: Response, next: NextFunction) => {
     try {
-        const { name, email } = req.body;
+        const { name, email, password: passwordFromBody, ...rest } = req.body;
 
         // find the user if exist return a message
         const isUserExist = await User.findOne({ email: email });
@@ -20,12 +20,13 @@ export const registerUser = async (req: Request & { body: IUser }, res: Response
         }
 
         // hashing the password before saving database 
-        bcrypt.hash(req.body.password, saltRounds, async (err, password) => {
+        bcrypt.hash(passwordFromBody, saltRounds, async (err, password) => {
             try {
                 const newUser = new User({
                     name,
                     email,
-                    password
+                    password,
+                    ...rest
                 })
                 await newUser.save();
                 res.status(201).send({ success: true, message: "User created successfully!" });

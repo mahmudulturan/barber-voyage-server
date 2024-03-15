@@ -6,7 +6,6 @@ import passport from 'passport';
 import cookieParser from 'cookie-parser';
 import errorHandler from './errorHandlers/errorHandler';
 import session from 'express-session';
-import jwt from 'jsonwebtoken';
 
 
 // routes
@@ -16,9 +15,6 @@ import userRoutes from './routes/user.routes';
 // configs
 import './configs/database';
 import './configs/passport';
-import { ICookieOptions } from './types/types';
-import { IUser } from './models/user.model';
-
 
 
 // create app
