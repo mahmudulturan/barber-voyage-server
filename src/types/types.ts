@@ -1,4 +1,4 @@
-import mongoose, { Document } from "mongoose";
+import mongoose, { Document, Types } from "mongoose";
 
 
 //interface for cookie options
@@ -89,4 +89,21 @@ export interface IPayment extends Document {
     amount: number;
     price: number;
     transactionID: number;
+}
+
+
+export interface IReview extends Document {
+    shopInfo: Types.ObjectId;
+    barberInfo: Types.ObjectId;
+    userInfo: Types.ObjectId;
+    bookingInfo: Types.ObjectId;
+    barberReview: {
+        rating: number;
+        reviewMessage: string;
+    };
+    shopReview: {
+        rating: number;
+        reviewMessage: string;
+    };
+    image?: string;
 }
