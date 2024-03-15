@@ -1,4 +1,4 @@
-import mongoose, { Document, Types } from "mongoose";
+import { Document, Types } from "mongoose";
 
 
 //interface for cookie options
@@ -22,6 +22,7 @@ export interface IUser extends Document {
     barberInfo?: Types.ObjectId;
     ownerInfo?: Types.ObjectId;
     adminInfo?: Types.ObjectId;
+    bookings?: Types.ObjectId[];
 }
 
 

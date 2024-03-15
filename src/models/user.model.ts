@@ -40,6 +40,12 @@ const userSchema: Schema = new mongoose.Schema({
     adminInfo: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Admin"
+    },
+    bookings: {
+        type: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Booking"
+        }]
     }
 })
 
