@@ -68,3 +68,16 @@ export interface IShop extends Document {
     services: string[];
     bookings: mongoose.Types.ObjectId[];
 }
+
+//interface for bookingSchema
+export interface IBooking extends Document {
+    shopInfo: mongoose.Types.ObjectId;
+    barberInfo: mongoose.Types.ObjectId;
+    userInfo: mongoose.Types.ObjectId;
+    service: string;
+    price: number;
+    transactionInfo: mongoose.Types.ObjectId;
+    bookingTime: Date;
+    estimatedAppoinmentTime: Date;
+    estimatedDuration: string;
+}
