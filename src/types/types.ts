@@ -81,3 +81,12 @@ export interface IBooking extends Document {
     estimatedAppoinmentTime: Date;
     estimatedDuration: string;
 }
+
+//interface for paymentSchema
+export interface IPayment extends Document {
+    bookingInfo: mongoose.Types.ObjectId;
+    userInfo: mongoose.Types.ObjectId;
+    amount: number;
+    price: number;
+    transactionID: number;
+}

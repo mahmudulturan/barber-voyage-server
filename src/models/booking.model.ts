@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { IBooking } from "../types/types";
 
 const bookingSchema = new mongoose.Schema({
     shopInfo: {
@@ -23,6 +24,7 @@ const bookingSchema = new mongoose.Schema({
     },
     transactionInfo: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: "Payment",
         required: true
     },
     bookingTime: {
@@ -39,6 +41,6 @@ const bookingSchema = new mongoose.Schema({
     }
 })
 
-const Booking = mongoose.model("Booking", bookingSchema);
+const Booking = mongoose.model<IBooking>("Booking", bookingSchema);
 
 export default Booking;
