@@ -8,6 +8,18 @@ export interface ICookieOptions {
     expires?: Date;
 }
 
+export interface IUser extends Document {
+    name: string;
+    email: string;
+    image?: string;
+    password?: string;
+    googleId?: string;
+    role: string;
+    barberInfo?: mongoose.Types.ObjectId;
+    ownerInfo?: mongoose.Types.ObjectId;
+    adminInfo?: mongoose.Types.ObjectId;
+}
+
 export interface IShop {
     _id: mongoose.Types.ObjectId;
     name: string;

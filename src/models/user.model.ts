@@ -1,12 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-
-export interface IUser extends Document {
-    _id: mongoose.Types.ObjectId;
-    email: string;
-    password?: string;
-    name: string;
-    googleId?: string;
-}
+import { IUser } from "../types/types";
 
 const userSchema: Schema = new mongoose.Schema({
     name: {
@@ -18,6 +11,10 @@ const userSchema: Schema = new mongoose.Schema({
         required: [true, "Email is missing, It must be required!"],
         unique: true,
     },
+    image: {
+        type: String,
+    }
+    ,
     password: {
         type: String,
         required: false,
@@ -25,7 +22,24 @@ const userSchema: Schema = new mongoose.Schema({
     googleId: {
         type: String,
         unique: true,
-        sparse: true, 
+        sparse: true,
+    },
+    role: {
+        type: String,
+        default: "user",
+        enum: ["user", "barber", "owner", "admin", "super-admin"]
+    },
+    barberInfo: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Barber"
+    },
+    ownerInfo: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Owner"
+    },
+    adminInfo: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Admin"
     }
 })
 
