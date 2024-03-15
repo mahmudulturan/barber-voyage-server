@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import { IBarber } from "../types/types";
 
 const barberSchema = new mongoose.Schema({
-    userInfo: {
+    user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         required: true
