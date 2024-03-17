@@ -2,9 +2,10 @@ import mongoose from "mongoose";
 import { IBarber } from "../types/types";
 
 const barberSchema = new mongoose.Schema({
-    userInfo: {
+    user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
+        unique: true,
         required: true
     },
     hiredAt: {
@@ -12,7 +13,7 @@ const barberSchema = new mongoose.Schema({
             joinedDate: {
                 type: Date
             },
-            shopInfo: {
+            shop: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "Shop"
             }
@@ -42,6 +43,11 @@ const barberSchema = new mongoose.Schema({
             ref: "Booking"
         }],
     },
+    isVerified: {
+        type: String,
+        enum: { values: ["verified", "pending", "rejected"], message: '{VALUE} is not acceptable' },
+        default: "pending"
+    }
 });
 
 const Barber = mongoose.model<IBarber>("Barber", barberSchema);

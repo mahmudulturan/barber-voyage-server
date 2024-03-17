@@ -2,19 +2,19 @@ import mongoose from "mongoose";
 import { IReview } from "../types/types";
 
 const reviewSchema = new mongoose.Schema({
-    shopInfo: {
+    shop: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Shop"
     },
-    barberInfo: {
+    barber: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Barber"
     },
-    userInfo: {
+    user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     },
-    bookingInfo: {
+    booking: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Booking"
     },

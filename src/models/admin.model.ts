@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import { IAdmin } from "../types/types";
 
 const adminSchema = new mongoose.Schema({
-    userInfo: {
+    user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     },

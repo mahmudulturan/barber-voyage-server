@@ -2,11 +2,11 @@ import mongoose from "mongoose";
 import { IOwner } from "../types/types";
 
 const ownerSchema = new mongoose.Schema({
-    userInfo: {
+    user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     },
-    shopInfo: {
+    shop: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Shop"
     },
@@ -17,6 +17,23 @@ const ownerSchema = new mongoose.Schema({
     specialties: {
         type: [String],
         required: true
+    },
+    bookings: {
+        type: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Booking"
+        }],
+    },
+    reviews: {
+        type: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Review"
+        }],
+    },
+    isVerified: {
+        type: String,
+        enum: { values: ["verified", "pending", "rejected"], message: '{VALUE} is not acceptable' },
+        default: "pending"
     }
 });
 

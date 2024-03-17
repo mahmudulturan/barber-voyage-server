@@ -6,7 +6,7 @@ const shopSchema: Schema = new mongoose.Schema({
         type: String,
         required: true
     },
-    ownerInfo: {
+    owner: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Owner",
         required: true
@@ -45,6 +45,11 @@ const shopSchema: Schema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "Booking"
         }],
+    },
+    isVerified: {
+        type: String,
+        enum: { values: ["verified", "pending", "rejected"], message: '{VALUE} is not acceptable' },
+        default: "pending"
     }
 })
 

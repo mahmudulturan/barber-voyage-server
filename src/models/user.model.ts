@@ -29,15 +29,15 @@ const userSchema: Schema = new mongoose.Schema({
         default: "user",
         enum: ["user", "barber", "owner", "admin", "super-admin"]
     },
-    barberInfo: {
+    barber: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Barber"
     },
-    ownerInfo: {
+    owner: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Owner"
     },
-    adminInfo: {
+    admin: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Admin"
     },

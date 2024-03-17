@@ -2,12 +2,12 @@ import mongoose from "mongoose";
 import { IPayment } from "../types/types";
 
 const paymentSchema = new mongoose.Schema({
-    bookingInfo: {
+    booking: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Booking",
         required: true,
     },
-    userInfo: {
+    user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         required: true,

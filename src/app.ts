@@ -11,6 +11,8 @@ import session from 'express-session';
 // routes
 import authRoutes from './routes/auth.routes';
 import userRoutes from './routes/user.routes';
+import barberRoutes from './routes/barber.routes';
+import ownerRoutes from './routes/owner.routes';
 
 // configs
 import './configs/database';
@@ -44,6 +46,8 @@ app.use(passport.session());
 // routes for authentication;
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/user', userRoutes);
+app.use('/api/v1/barber', barberRoutes);
+app.use('/api/v1/owner', ownerRoutes);
 
 
 // home route of this server
