@@ -38,6 +38,7 @@ export interface IBarber extends Document {
     document: string;
     reviews: Types.ObjectId[];
     bookings: Types.ObjectId[];
+    isVerified: string;
 }
 
 

@@ -5,6 +5,7 @@ const barberSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
+        unique: true,
         required: true
     },
     hiredAt: {
@@ -42,6 +43,17 @@ const barberSchema = new mongoose.Schema({
             ref: "Booking"
         }],
     },
+    isVerified: {
+        type: String,
+        enum: ["verified", "pending", "rejected"],
+        default: "pending",
+        validate: {
+            validator: function (v: string) {
+                return ["verified", "pending", "rejected"].includes(v);
+            },
+            message: '{VALUE} is not supported'
+        }
+    }
 });
 
 const Barber = mongoose.model<IBarber>("Barber", barberSchema);
