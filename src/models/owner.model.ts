@@ -29,6 +29,11 @@ const ownerSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "Review"
         }],
+    },
+    isVerified: {
+        type: String,
+        enum: { values: ["verified", "pending", "rejected"], message: '{VALUE} is not acceptable' },
+        default: "pending"
     }
 });
 

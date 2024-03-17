@@ -48,6 +48,9 @@ export interface IOwner extends Document {
     shop: Types.ObjectId;
     experience: string;
     specialties: string[];
+    isVerified: string;
+    reviews: Types.ObjectId[];
+    bookings: Types.ObjectId[];
 }
 
 
