@@ -45,14 +45,8 @@ const barberSchema = new mongoose.Schema({
     },
     isVerified: {
         type: String,
-        enum: ["verified", "pending", "rejected"],
-        default: "pending",
-        validate: {
-            validator: function (v: string) {
-                return ["verified", "pending", "rejected"].includes(v);
-            },
-            message: '{VALUE} is not supported'
-        }
+        enum: { values: ["verified", "pending", "rejected"], message: '{VALUE} is not acceptable' },
+        default: "pending"
     }
 });
 
