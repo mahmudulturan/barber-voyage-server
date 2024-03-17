@@ -2,15 +2,15 @@ import mongoose from "mongoose";
 import { IBooking } from "../types/types";
 
 const bookingSchema = new mongoose.Schema({
-    shopInfo: {
+    shop: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Shop"
     },
-    barberInfo: {
+    barber: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Barber"
     },
-    userInfo: {
+    user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     },
@@ -22,7 +22,7 @@ const bookingSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    transactionInfo: {
+    transaction: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Payment",
         required: true

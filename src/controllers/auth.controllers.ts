@@ -78,7 +78,7 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
 
                 return res.status(200)
                     .cookie("token", token, cookieOptions)
-                    .send({ success: true, message: "Login Successful!", user: userInfo });
+                    .send({ success: true, message: "Login Successful!", user: user });
             }
             else {
                 return res.status(401).send({ success: false, message: "Wrong Password!" });

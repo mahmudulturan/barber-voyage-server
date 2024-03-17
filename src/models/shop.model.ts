@@ -6,7 +6,7 @@ const shopSchema: Schema = new mongoose.Schema({
         type: String,
         required: true
     },
-    ownerInfo: {
+    owner: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Owner",
         required: true

@@ -19,19 +19,19 @@ export interface IUser extends Document {
     password?: string;
     googleId?: string;
     role: string;
-    barberInfo?: Types.ObjectId;
-    ownerInfo?: Types.ObjectId;
-    adminInfo?: Types.ObjectId;
+    barber?: Types.ObjectId;
+    owner?: Types.ObjectId;
+    admin?: Types.ObjectId;
     bookings?: Types.ObjectId[];
 }
 
 
 //interface for barberSchema
 export interface IBarber extends Document {
-    userInfo: Types.ObjectId;
+    user: Types.ObjectId;
     hiredAt: {
         joinedDate: Date;
-        shopInfo: Types.ObjectId;
+        shop: Types.ObjectId;
     };
     experience: string;
     specialties: string[];
@@ -44,8 +44,8 @@ export interface IBarber extends Document {
 
 //interface for ownerSchema
 export interface IOwner extends Document {
-    userInfo: Types.ObjectId;
-    shopInfo: Types.ObjectId;
+    user: Types.ObjectId;
+    shop: Types.ObjectId;
     experience: string;
     specialties: string[];
 }
@@ -53,7 +53,7 @@ export interface IOwner extends Document {
 
 //interface for adminSchema
 export interface IAdmin extends Document {
-    userInfo: Types.ObjectId;
+    user: Types.ObjectId;
     adminSince: Date;
 }
 
@@ -61,7 +61,7 @@ export interface IAdmin extends Document {
 //interface for shopSchema
 export interface IShop extends Document {
     name: string;
-    ownerInfo: Types.ObjectId;
+    owner: Types.ObjectId;
     barbers: Types.ObjectId[];
     shopImages: string[];
     license: string;
@@ -73,12 +73,12 @@ export interface IShop extends Document {
 
 //interface for bookingSchema
 export interface IBooking extends Document {
-    shopInfo: Types.ObjectId;
-    barberInfo: Types.ObjectId;
-    userInfo: Types.ObjectId;
+    shop: Types.ObjectId;
+    barber: Types.ObjectId;
+    user: Types.ObjectId;
     service: string;
     price: number;
-    transactionInfo: Types.ObjectId;
+    transaction: Types.ObjectId;
     bookingTime: Date;
     estimatedAppoinmentTime: Date;
     estimatedDuration: string;
@@ -86,8 +86,8 @@ export interface IBooking extends Document {
 
 //interface for paymentSchema
 export interface IPayment extends Document {
-    bookingInfo: Types.ObjectId;
-    userInfo: Types.ObjectId;
+    booking: Types.ObjectId;
+    user: Types.ObjectId;
     amount: number;
     price: number;
     transactionID: number;
@@ -95,10 +95,10 @@ export interface IPayment extends Document {
 
 
 export interface IReview extends Document {
-    shopInfo: Types.ObjectId;
-    barberInfo: Types.ObjectId;
-    userInfo: Types.ObjectId;
-    bookingInfo: Types.ObjectId;
+    shop: Types.ObjectId;
+    barber: Types.ObjectId;
+    user: Types.ObjectId;
+    booking: Types.ObjectId;
     barberReview: {
         rating: number;
         reviewMessage: string;

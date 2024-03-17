@@ -7,7 +7,6 @@ export const createShop = async (req: Request, res: Response, next: NextFunction
     try {
         const { name, owner, barbers, shopImages, license, location, services } = req.body;
         const newShop = new Shop({ name, owner, barbers, shopImages, license, location, services });
-        const newOwner = new Owner({})
         await newShop.save();
         res.status(201).send({ success: true, message: "Store created successfully" })
     } catch (error) {

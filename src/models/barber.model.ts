@@ -13,7 +13,7 @@ const barberSchema = new mongoose.Schema({
             joinedDate: {
                 type: Date
             },
-            shopInfo: {
+            shop: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "Shop"
             }
