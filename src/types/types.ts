@@ -69,6 +69,7 @@ export interface IShop extends Document {
     location: object;
     services: string[];
     bookings: Types.ObjectId[];
+    isVerified: string;
 }
 
 //interface for bookingSchema
