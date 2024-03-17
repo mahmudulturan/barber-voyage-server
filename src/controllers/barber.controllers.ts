@@ -11,3 +11,11 @@ export const barberRegister = async (req: Request, res: Response, next: NextFunc
         next(error)
     }
 }
+
+export const verifyBarber = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        
+    } catch (error) {
+        next(error);
+    }
+}
