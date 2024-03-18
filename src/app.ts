@@ -7,13 +7,13 @@ import cookieParser from 'cookie-parser';
 import errorHandler from './errorHandlers/errorHandler';
 import session from 'express-session';
 
-
 // routes
 import authRoutes from './routes/auth.routes';
 import userRoutes from './routes/user.routes';
 import barberRoutes from './routes/barber.routes';
 import ownerRoutes from './routes/owner.routes';
 import bookingRoutes from './routes/booking.routes';
+import paymentRoutes from './routes/payment.routes';
 
 // configs
 import './configs/database';
@@ -50,6 +50,7 @@ app.use('/api/v1/user', userRoutes);
 app.use('/api/v1/barber', barberRoutes);
 app.use('/api/v1/owner', ownerRoutes);
 app.use('/api/v1/booking', bookingRoutes);
+app.use('/api/v1/payment', paymentRoutes);
 
 
 // home route of this server
