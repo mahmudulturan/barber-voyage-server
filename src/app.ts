@@ -14,6 +14,7 @@ import barberRoutes from './routes/barber.routes';
 import ownerRoutes from './routes/owner.routes';
 import bookingRoutes from './routes/booking.routes';
 import paymentRoutes from './routes/payment.routes';
+import reviewRoutes from './routes/review.routes';
 
 // configs
 import './configs/database';
@@ -51,6 +52,7 @@ app.use('/api/v1/barber', barberRoutes);
 app.use('/api/v1/owner', ownerRoutes);
 app.use('/api/v1/booking', bookingRoutes);
 app.use('/api/v1/payment', paymentRoutes);
+app.use('/api/v1/review', reviewRoutes);
 
 
 // home route of this server
