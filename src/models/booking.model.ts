@@ -4,15 +4,18 @@ import { IBooking } from "../types/types";
 const bookingSchema = new mongoose.Schema({
     shop: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Shop"
+        ref: "Shop",
+        required: true
     },
     barber: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Barber"
+        ref: "Barber",
+        required: true
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+        ref: "User",
+        required: true
     },
     service: {
         type: String,
@@ -38,6 +41,11 @@ const bookingSchema = new mongoose.Schema({
     estimatedDuration: {
         type: String,
         required: true
+    },
+    bookingStatus: {
+        type: String,
+        enum: { values: ["accepted", "running", "completed", "posponed"], message: '{VALUE} is not acceptable' },
+        default: "accepted"
     }
 })
 

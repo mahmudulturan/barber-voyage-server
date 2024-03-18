@@ -86,6 +86,7 @@ export interface IBooking extends Document {
     bookingTime: Date;
     estimatedAppoinmentTime: Date;
     estimatedDuration: string;
+    bookingStatus: string;
 }
 
 //interface for paymentSchema
@@ -93,7 +94,6 @@ export interface IPayment extends Document {
     booking: Types.ObjectId;
     user: Types.ObjectId;
     amount: number;
-    price: number;
     transactionID: number;
 }
 
