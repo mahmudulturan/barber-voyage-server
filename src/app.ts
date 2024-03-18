@@ -13,6 +13,7 @@ import authRoutes from './routes/auth.routes';
 import userRoutes from './routes/user.routes';
 import barberRoutes from './routes/barber.routes';
 import ownerRoutes from './routes/owner.routes';
+import bookingRoutes from './routes/booking.routes';
 
 // configs
 import './configs/database';
@@ -48,6 +49,7 @@ app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/user', userRoutes);
 app.use('/api/v1/barber', barberRoutes);
 app.use('/api/v1/owner', ownerRoutes);
+app.use('/api/v1/booking', bookingRoutes);
 
 
 // home route of this server
