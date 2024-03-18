@@ -94,7 +94,6 @@ export interface IPayment extends Document {
     booking: Types.ObjectId;
     user: Types.ObjectId;
     amount: number;
-    price: number;
     transactionID: number;
 }
 
