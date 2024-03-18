@@ -41,6 +41,11 @@ const bookingSchema = new mongoose.Schema({
     estimatedDuration: {
         type: String,
         required: true
+    },
+    bookingStatus: {
+        type: String,
+        enum: { values: ["accepted", "running", "completed", "posponed"], message: '{VALUE} is not acceptable' },
+        default: "accepted"
     }
 })
 

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createBooking } from "../controllers/booking.controllers";
+import { changeBookingStatus, createBooking } from "../controllers/booking.controllers";
 
 const router = Router();
 
@@ -23,4 +23,21 @@ router
      */
     .post('/create-booking', createBooking);
 
+
+
+router
+    /**
+     * @route PATCH /api/v1/booking/change-status
+     * @group Booking - Operations about changing the status of a booking
+     * @param {string} bookingId.body.required - The id of the booking. Example: 60d5ecb8b392d7001f8e8e91
+     * @param {string} status.body.required - The new status of the booking. Example: Confirmed
+     * @produces application/json
+     * @returns {object} 201 - An object containing the booking status and a success message.
+     * @returns {object} 404 - An object containing an error message if the booking is not found.
+     * @returns {object} 500 - An object containing an error message if there's a server error.
+     */
+    .patch('/change-status', changeBookingStatus);
+
+
+    
 export default router;

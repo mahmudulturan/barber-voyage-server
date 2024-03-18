@@ -4,6 +4,7 @@ import Shop from "../models/shop.model";
 import Barber from "../models/barber.model";
 import User from "../models/user.model";
 
+// controller for create a new booking
 export const createBooking = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { shopId, barberId, userId, service, price, transaction, bookingTime, estimatedAppoinmentTime, estimatedDuration } = req.body;
@@ -31,7 +32,7 @@ export const createBooking = async (req: Request, res: Response, next: NextFunct
             return res.status(404).send(
                 {
                     success: false,
-                    message: shop && "Shop not found!" || !barber && "Barber not found!" || !user && "User not found!"
+                    error: shop && "Shop not found!" || !barber && "Barber not found!" || !user && "User not found!"
                 }
             );
         }
@@ -44,6 +45,28 @@ export const createBooking = async (req: Request, res: Response, next: NextFunct
         // save to db and send a success message
         await Promise.all([newBooking.save(), user.save(), shop.save(), barber.save()]);
         res.status(201).send({ success: true, message: "Booking successfull" });
+    } catch (error) {
+        next(error);
+    }
+}
+
+// controller for change status for an booking
+export const changeBookingStatus = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { bookingId, status } = req.body;
+
+        const booking = await Booking.findById(bookingId);
+
+        // if booking is not found then send a error message
+        if (!booking) {
+            return res.status(404).send({ succes: false, error: "Booking not found!" });
+        }
+
+        // change booking status
+        booking.bookingStatus = status;
+
+        await booking.save();
+        res.status(201).send({ success: true, message: `Booking ${status}` });
     } catch (error) {
         next(error);
     }

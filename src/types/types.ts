@@ -86,6 +86,7 @@ export interface IBooking extends Document {
     bookingTime: Date;
     estimatedAppoinmentTime: Date;
     estimatedDuration: string;
+    bookingStatus: string;
 }
 
 //interface for paymentSchema
