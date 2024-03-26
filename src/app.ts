@@ -42,7 +42,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-
 // all routes
 
 // routes for authentication;
