@@ -3,6 +3,18 @@ import Barber from "../models/barber.model";
 import User from "../models/user.model";
 
 // controller for register a new barber
+export const getBarber = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { id } = req.params;
+        const barberDetails = await Barber.findById(id).populate("user").populate("bookings", "user");
+        res.status(201).send({ success: true, data: barberDetails, message: "Successfully registered as a barber!" });
+    } catch (error) {
+        next(error);
+    }
+}
+
+
+// controller for register a new barber
 export const barberRegister = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { user, experience, specialties, document } = req.body;

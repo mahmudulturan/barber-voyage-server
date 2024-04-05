@@ -1,7 +1,20 @@
 import { Router } from "express";
-import { barberRegister, verifyBarber } from "../controllers/barber.controllers";
+import { barberRegister, getBarber, verifyBarber } from "../controllers/barber.controllers";
 
 const router = Router();
+
+router
+    /**
+     * @route GET /api/v1/barber/get-barber/:id
+     * @access admin, barber
+     * @group Barber Details - Operations about get a barber
+     * @param {string} id.params.required - The id of the barber. Example: 65f1dfe6b4e7d6b99214b578
+     * @produces application/json
+     * @returns {object} 200 - An object containing the verification status and a success message.
+     * @returns {object} 500 - An object containing an error message if there's a server error.
+     */
+    .get('/get-barber/:id', getBarber);
+
 
 router
     /**
@@ -30,6 +43,7 @@ router
      * @returns {object} 500 - An object containing an error message if there's a server error.
      */
     .patch('/verify-barber', verifyBarber);
+
 
 
 
