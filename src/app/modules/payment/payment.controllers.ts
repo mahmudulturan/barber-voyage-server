@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import Payment from "./payment.model";
 
 // controller for create a new payment
-export const createPayment = async (req: Request, res: Response, next: NextFunction) => {
+const createPayment = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { bookingId, userId, amount, transactionID } = req.body;
         const newPayment = new Payment({ booking: bookingId, user: userId, amount, transactionID })
@@ -11,4 +11,8 @@ export const createPayment = async (req: Request, res: Response, next: NextFunct
     } catch (error) {
         next(error);
     }
+}
+
+export const paymentControllers = {
+    createPayment
 }

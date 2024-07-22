@@ -2,7 +2,7 @@ import express from 'express';
 
 const router = express.Router();
 import passport from 'passport';
-import { registerUser, loginUser, logoutUser, loginWithGoogle } from './auth.controllers';
+import { authControllers } from './auth.controllers';
 
 router
     /**
@@ -16,7 +16,7 @@ router
      * @returns {object} 409 - An object containing an error message if the user already exists.
      * @returns {object} 500 - An object containing an error message if there's a server error.
      */
-    .post('/register', registerUser);
+    .post('/register', authControllers.registerUser);
 
 
 router
@@ -31,7 +31,7 @@ router
      * @returns {object} 404 - An object containing an error message if the user is not found.
      * @returns {object} 500 - An object containing an error message if there's a server error.
      */
-    .post('/login', loginUser)
+    .post('/login', authControllers.loginUser)
 
 
 router
@@ -42,7 +42,7 @@ router
      * @returns {object} 200 - An object containing a success message indicating that the user has been logged out.
      * @returns {object} 500 - An object containing an error message if there's a server error.
      */
-    .get('/logout', logoutUser)
+    .get('/logout', authControllers.logoutUser)
 
 
 
@@ -56,7 +56,7 @@ router
     .get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 
-    
+
 router
     /**
      * @route GET /api/v1/auth/google/callback
@@ -65,7 +65,7 @@ router
      * @returns {object} 200 - An object containing the user information and a success message if authentication is successful.
      * @returns {object} 500 - An object containing an error message if there's a server error.
      */
-    .get('/google/callback', passport.authenticate('google'), loginWithGoogle);
+    .get('/google/callback', passport.authenticate('google'), authControllers.loginWithGoogle);
 
 
 export default router;

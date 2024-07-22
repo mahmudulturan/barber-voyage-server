@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getBarber, barberRegister, verifyBarber } from "./barber.controllers";
+import { barberControllers } from "./barber.controllers";
 
 const router = Router();
 
@@ -13,7 +13,7 @@ router
      * @returns {object} 200 - An object containing the verification status and a success message.
      * @returns {object} 500 - An object containing an error message if there's a server error.
      */
-    .get('/get-barber/:id', getBarber);
+    .get('/get-barber/:id', barberControllers.getBarber);
 
 
 router
@@ -28,7 +28,7 @@ router
      * @returns {object} 201 - An object containing the registration status and a success message.
      * @returns {object} 500 - An object containing an error message if there's a server error.
      */
-    .post('/barber-register', barberRegister);
+    .post('/barber-register', barberControllers.barberRegister);
 
 
 router
@@ -42,7 +42,7 @@ router
      * @returns {object} 200 - An object containing the verification status and a success message.
      * @returns {object} 500 - An object containing an error message if there's a server error.
      */
-    .patch('/verify-barber', verifyBarber);
+    .patch('/verify-barber', barberControllers.verifyBarber);
 
 
 

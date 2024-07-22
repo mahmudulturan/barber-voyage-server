@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createShop, verifyShop } from "./owner.controllers";
+import { ownerControllers } from "./owner.controllers";
 
 const router = Router();
 
@@ -21,7 +21,7 @@ router
      * @returns {object} 400 - An object containing an error message if the request is malformed.
      * @returns {object} 500 - An object containing an error message if there's a server error.
      */
-    .post('/create-shop', createShop)
+    .post('/create-shop', ownerControllers.createShop)
 
 
 router
@@ -35,6 +35,6 @@ router
      * @returns {object} 400 - An object containing an error message if the request is malformed.
      * @returns {object} 500 - An object containing an error message if there's a server error.
      */
-    .patch('/verify-shop', verifyShop)
+    .patch('/verify-shop', ownerControllers.verifyShop)
 
 export default router;

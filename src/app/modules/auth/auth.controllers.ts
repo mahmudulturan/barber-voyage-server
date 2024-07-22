@@ -9,7 +9,7 @@ import configs from "../../configs";
 const saltRounds = 10;
 
 // controller for register a user
-export const registerUser = async (req: Request & { body: IUser }, res: Response, next: NextFunction) => {
+const registerUser = async (req: Request & { body: IUser }, res: Response, next: NextFunction) => {
     try {
         const { name, email, password: passwordFromBody, ...rest } = req.body;
 
@@ -40,7 +40,7 @@ export const registerUser = async (req: Request & { body: IUser }, res: Response
 }
 
 // controller for login a user
-export const loginUser = async (req: Request, res: Response, next: NextFunction) => {
+const loginUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { email, password } = req.body;
 
@@ -91,7 +91,7 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
 
 
 // controller for logout a user
-export const logoutUser = async (req: Request, res: Response, next: NextFunction) => {
+const logoutUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
         // cookie options
         const cookieOptions: ICookieOptions = {
@@ -110,7 +110,7 @@ export const logoutUser = async (req: Request, res: Response, next: NextFunction
 
 
 // Controller function for handling Google authentication callback
-export const loginWithGoogle = (req: Request, res: Response) => {
+const loginWithGoogle = (req: Request, res: Response) => {
     const tokenSecret = configs.jwt_token;
     if (!tokenSecret) throw new Error("JWT_TOKEN is missing in env file");
 
@@ -133,4 +133,11 @@ export const loginWithGoogle = (req: Request, res: Response) => {
 
     // Set the JWT token in a cookie and redirect
     res.cookie('token', token, cookieOptions).redirect(redirectURL || "/error");
+}
+
+export const authControllers = {
+    registerUser,
+    loginUser,
+    logoutUser,
+    loginWithGoogle
 }

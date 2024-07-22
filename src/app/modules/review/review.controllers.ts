@@ -4,7 +4,7 @@ import Barber from "../barber/barber.model";
 import Shop from "../shop/shop.model";
 
 
-export const addReview = async (req: Request, res: Response, next: NextFunction) => {
+const addReview = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { shopId, barberId, userId, bookingId, barberReview, shopReview, image } = req.body;
         const newReview = new Review({
@@ -41,4 +41,8 @@ export const addReview = async (req: Request, res: Response, next: NextFunction)
     } catch (error) {
         next(error);
     }
+}
+
+export const reviewControllers = {
+    addReview
 }

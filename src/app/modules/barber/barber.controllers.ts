@@ -4,7 +4,7 @@ import Barber from "./barber.model";
 
 
 // controller for register a new barber
-export const getBarber = async (req: Request, res: Response, next: NextFunction) => {
+const getBarber = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { id } = req.params;
         const barberDetails = await Barber.findById(id).populate("user").populate("bookings", "user");
@@ -16,7 +16,7 @@ export const getBarber = async (req: Request, res: Response, next: NextFunction)
 
 
 // controller for register a new barber
-export const barberRegister = async (req: Request, res: Response, next: NextFunction) => {
+const barberRegister = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { user, experience, specialties, document } = req.body;
         const newBarber = new Barber({ user, experience, specialties, document });
@@ -28,7 +28,7 @@ export const barberRegister = async (req: Request, res: Response, next: NextFunc
 }
 
 // controller for verify a requested barber
-export const verifyBarber = async (req: Request, res: Response, next: NextFunction) => {
+const verifyBarber = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { id, status } = req.body;
 
@@ -51,4 +51,10 @@ export const verifyBarber = async (req: Request, res: Response, next: NextFuncti
         console.log((error as Error).message);
         next(error);
     }
+}
+
+export const barberControllers = {
+    getBarber,
+    barberRegister,
+    verifyBarber
 }

@@ -5,7 +5,7 @@ import Shop from "../shop/shop.model";
 import User from "../user/user.model";
 
 // controller for create a new booking
-export const createBooking = async (req: Request, res: Response, next: NextFunction) => {
+const createBooking = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { shopId, barberId, userId, service, price, transaction, bookingTime, estimatedAppoinmentTime, estimatedDuration } = req.body;
 
@@ -51,7 +51,7 @@ export const createBooking = async (req: Request, res: Response, next: NextFunct
 }
 
 // controller for change status for an booking
-export const changeBookingStatus = async (req: Request, res: Response, next: NextFunction) => {
+const changeBookingStatus = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { bookingId, status } = req.body;
 
@@ -70,4 +70,10 @@ export const changeBookingStatus = async (req: Request, res: Response, next: Nex
     } catch (error) {
         next(error);
     }
+}
+
+
+export const bookingControllers = {
+    createBooking,
+    changeBookingStatus
 }

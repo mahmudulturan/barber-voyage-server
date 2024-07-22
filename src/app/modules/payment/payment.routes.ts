@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createPayment } from "./payment.controllers";
+import { paymentControllers } from "./payment.controllers";
 
 const router = Router();
 
@@ -17,6 +17,6 @@ router
      * @returns {object} 400 - An object containing an error message if the request is malformed.
      * @returns {object} 500 - An object containing an error message if there's a server error.
      */
-    .post('/create-payment', createPayment)
+    .post('/create-payment', paymentControllers.createPayment)
 
 export default router;

@@ -5,7 +5,7 @@ import Owner from "./owner.model";
 
 
 // controller for create a new shop and new owner
-export const createShop = async (req: Request, res: Response, next: NextFunction) => {
+const createShop = async (req: Request, res: Response, next: NextFunction) => {
     try {
         // get all data from req.body
         const { name, user, barbers, shopImages, license, location, services, experience, specialties } = req.body;
@@ -29,14 +29,14 @@ export const createShop = async (req: Request, res: Response, next: NextFunction
 
 
 // controller for verify shop and new owner
-export const verifyShop = async (req: Request, res: Response, next: NextFunction) => {
+const verifyShop = async (req: Request, res: Response, next: NextFunction) => {
     try {
         // get all data from req.body
         const { id, status } = req.body;
         const shop = await Shop.findById(id);
         const owner = await Owner.findById(shop?.owner);
         const user = await User.findById(owner?.user);
-        
+
         // if shop dont exist then send a error message
         if (!shop || !user || !owner) {
             return res.status(404).send({
@@ -61,4 +61,9 @@ export const verifyShop = async (req: Request, res: Response, next: NextFunction
     } catch (error) {
         next(error);
     }
+}
+
+export const ownerControllers = {
+    createShop,
+    verifyShop
 }

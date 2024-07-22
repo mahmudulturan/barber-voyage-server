@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createBooking, changeBookingStatus } from "./booking.controllers";
+import { bookingControllers } from "./booking.controllers";
 
 const router = Router();
 
@@ -21,7 +21,7 @@ router
      * @returns {object} 404 - An object containing an error message if the shop, barber, or user is not found.
      * @returns {object} 500 - An object containing an error message if there's a server error.
      */
-    .post('/create-booking', createBooking);
+    .post('/create-booking', bookingControllers.createBooking);
 
 
 
@@ -36,8 +36,8 @@ router
      * @returns {object} 404 - An object containing an error message if the booking is not found.
      * @returns {object} 500 - An object containing an error message if there's a server error.
      */
-    .patch('/change-status', changeBookingStatus);
+    .patch('/change-status', bookingControllers.changeBookingStatus);
 
 
-    
+
 export default router;
