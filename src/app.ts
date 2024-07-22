@@ -1,5 +1,3 @@
-import { config as dotenvConfig } from 'dotenv';
-dotenvConfig();
 import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import passport from 'passport';
@@ -7,19 +5,12 @@ import cookieParser from 'cookie-parser';
 import errorHandler from './app/middlewares/errorHandler';
 import session from 'express-session';
 
-// routes
-import authRoutes from './app/modules/auth/auth.routes';
-import userRoutes from './app/modules/user/user.routes';
-import barberRoutes from './app/modules/barber/barber.routes';
-import ownerRoutes from './app/modules/owner/owner.routes';
-import bookingRoutes from './app/modules/booking/booking.routes';
-import paymentRoutes from './app/modules/payment/payment.routes';
-import reviewRoutes from './app/modules/review/review.routes';
 
 // configs
 import './app/configs/database';
 import './app/configs/passport';
 import configs from './app/configs';
+import routes from './app/routes';
 
 
 // create app
@@ -43,17 +34,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-// all routes
 
-// routes for authentication;
-app.use('/api/v1/auth', authRoutes);
-app.use('/api/v1/user', userRoutes);
-app.use('/api/v1/barber', barberRoutes);
-app.use('/api/v1/owner', ownerRoutes);
-app.use('/api/v1/booking', bookingRoutes);
-app.use('/api/v1/payment', paymentRoutes);
-app.use('/api/v1/review', reviewRoutes);
-
+app.use("/api/v1", routes)
 
 // home route of this server
 app.get('/', (req: Request, res: Response) => {
