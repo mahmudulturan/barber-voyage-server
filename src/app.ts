@@ -11,6 +11,7 @@ import routes from './app/routes';
 import './app/configs/database';
 import './app/configs/passport';
 import globalErrorHandler from './app/middlewares/globalErrorHandler';
+import notFoundErrorHandler from './app/middlewares/notFoundErrorHandler';
 
 // create app
 const app = express();
@@ -41,10 +42,8 @@ app.get('/', (req: Request, res: Response) => {
     res.send("Wellcome to Barber Voyage server")
 })
 
-// response for not found route
-app.use((req: Request, res: Response, next: NextFunction) => {
-    res.status(404).send({ message: "The specified route cannot be located or identified." })
-})
+// handling not found route error
+app.use(notFoundErrorHandler);
 
 // handling all erorrs in one error handling middleware
 app.use(globalErrorHandler);
