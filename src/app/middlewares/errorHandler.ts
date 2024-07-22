@@ -5,6 +5,7 @@ import handleValidationError from "../errors/handleValidationError";
 import configs from "../configs";
 import handleDuplicateError from "../errors/handleDuplicateError";
 import handleCastError from "../errors/handleCastError";
+import AppError from "../errors/AppError";
 
 const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
 
@@ -32,6 +33,15 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
         status = simplifiedCastError?.statusCode;
         message = simplifiedCastError?.message;
         errorMessages = simplifiedCastError?.errorSources;
+    } else if (err instanceof AppError) {                   // handle custom app error
+        status = err.statusCode;
+        message = err?.message;
+        errorMessages = [
+            {
+                path: '',
+                message: err?.message,
+            },
+        ];
     }
 
 
