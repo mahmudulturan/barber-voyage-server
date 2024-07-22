@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { IOwner } from "../../interfaces/types";
+import { IOwner } from "./owner.interfaces";
 
 const ownerSchema = new mongoose.Schema({
     user: {

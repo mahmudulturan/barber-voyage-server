@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { IShop } from "../../interfaces/types";
+import { IShop } from "./shop.interfaces";
 
 const shopSchema: Schema = new mongoose.Schema({
     name: {

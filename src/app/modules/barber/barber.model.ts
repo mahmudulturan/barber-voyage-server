@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { IBarber } from "../../interfaces/types";
+import { IBarber } from "./barber.interfaces";
 
 const barberSchema = new mongoose.Schema({
     user: {

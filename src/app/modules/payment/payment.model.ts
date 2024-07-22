@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { IPayment } from "../../interfaces/types";
+import { IPayment } from "./payment.interfaces";
 
 const paymentSchema = new mongoose.Schema({
     booking: {

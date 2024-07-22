@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { IAdmin } from "../../interfaces/types";
+import { IAdmin } from "./admin.interfaces";
 
 const adminSchema = new mongoose.Schema({
     user: {

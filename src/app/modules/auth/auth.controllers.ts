@@ -1,10 +1,9 @@
-
-
 import { NextFunction, Request, Response } from "express";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { IUser, ICookieOptions } from "../../interfaces/types";
 import User from "../user/user.model";
+import { IUser } from "../user/user.interfaces";
+import { ICookieOptions } from "../../interfaces/cookie";
 
 const saltRounds = 10;
 
