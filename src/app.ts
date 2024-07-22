@@ -19,6 +19,7 @@ import reviewRoutes from './app/modules/review/review.routes';
 // configs
 import './app/configs/database';
 import './app/configs/passport';
+import configs from './app/configs';
 
 
 // create app
@@ -28,15 +29,15 @@ const app = express();
 // middlewares
 app.use(express.json());
 app.use(cors({
-    origin: ["http://localhost:3000" || "", process.env.LIVE_CLIENT_URL || ""],
+    origin: [configs.local_client_url as string, configs.live_client_url as string],
     credentials: true
 }));
 app.use(cookieParser());
 app.use(session({
-    secret: process.env.GOOGLE_SESSION_SECRET || "",
+    secret: configs.google_session_secret || "",
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: process.env.NODE_ENV === 'production' }
+    cookie: { secure: configs.node_env === 'production' }
 }))
 app.use(passport.initialize());
 app.use(passport.session());

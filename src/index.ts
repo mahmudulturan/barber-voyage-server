@@ -1,9 +1,10 @@
 import dotenv from 'dotenv';
 import app from "./app";
+import configs from './app/configs';
 
 dotenv.config();
 
-const port = process.env.PORT || 7000;
+const port = configs.port || 5000;
 
 
 // run the server

@@ -3,9 +3,9 @@ import { ExtractJwt, Strategy, StrategyOptions } from 'passport-jwt';
 import { Request, } from 'express';
 import { GoogleCallbackParameters, Strategy as GoogleStrategy, Profile, VerifyCallback } from 'passport-google-oauth20';
 import User from '../modules/user/user.model';
+import configs from '.';
 
-const tokenSecret = process.env.JWT_TOKEN;
-if (!tokenSecret) throw new Error("JWT_TOKEN is missing in env file");
+const tokenSecret = configs.jwt_token as string;
 
 // function for getting cookie from req.cookies
 const cookieExtractor = (req: Request) => {
@@ -38,12 +38,12 @@ passport.use(new Strategy(options, async (jwt_payload, done) => {
 
 
 // callback url for google authentication
-const callbackURL = process.env.NODE_ENV === "production" ? process.env.LIVE_SERVER_URL : process.env.LOCAL_SERVER_URL;
+const callbackURL = configs.node_env === "production" ? configs.live_server_url : configs.local_server_url;
 
 // stratagy for gogle
 passport.use(new GoogleStrategy({
-    clientID: process.env.GOOGLE_CLIENT_ID!,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    clientID: configs.google_client_id!,
+    clientSecret: configs.google_client_secret!,
     callbackURL: `${callbackURL}/api/v1/auth/google/callback`,
     passReqToCallback: true,
     scope: ['profile', 'email']

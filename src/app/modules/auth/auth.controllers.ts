@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import User from "../user/user.model";
 import { IUser } from "../user/user.interfaces";
 import { ICookieOptions } from "../../interfaces/cookie";
+import configs from "../../configs";
 
 const saltRounds = 10;
 
@@ -60,16 +61,16 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
             if (result) {
 
                 // genarate a token
-                const tokenSecret = process.env.JWT_TOKEN;
+                const tokenSecret = configs.jwt_token;
                 if (!tokenSecret) throw new Error("JWT_TOKEN is missing in env file");
                 const userData = { email: user.email, id: user._id };
                 const token = jwt.sign(userData, tokenSecret, { expiresIn: "30d" })
 
                 // cookie options
                 const cookieOptions: ICookieOptions = {
-                    httpOnly: process.env.NODE_ENV === 'production',
-                    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-                    secure: process.env.NODE_ENV === 'production',
+                    httpOnly: configs.node_env === 'production',
+                    sameSite: configs.node_env === 'production' ? 'none' : 'lax',
+                    secure: configs.node_env === 'production',
                     expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
                 };
 
@@ -94,9 +95,9 @@ export const logoutUser = async (req: Request, res: Response, next: NextFunction
     try {
         // cookie options
         const cookieOptions: ICookieOptions = {
-            httpOnly: process.env.NODE_ENV === 'production',
-            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-            secure: process.env.NODE_ENV === 'production',
+            httpOnly: configs.node_env === 'production',
+            sameSite: configs.node_env === 'production' ? 'none' : 'lax',
+            secure: configs.node_env === 'production',
             maxAge: 0
         };
         res
@@ -110,7 +111,7 @@ export const logoutUser = async (req: Request, res: Response, next: NextFunction
 
 // Controller function for handling Google authentication callback
 export const loginWithGoogle = (req: Request, res: Response) => {
-    const tokenSecret = process.env.JWT_TOKEN;
+    const tokenSecret = configs.jwt_token;
     if (!tokenSecret) throw new Error("JWT_TOKEN is missing in env file");
 
     const user: any = req.user;
@@ -120,13 +121,13 @@ export const loginWithGoogle = (req: Request, res: Response) => {
     const token = jwt.sign(userData, tokenSecret, { expiresIn: "30d" });
 
     // Determine redirect URL based on environment
-    const redirectURL = process.env.NODE_ENV === "production" ? process.env.LIVE_CLIENT_URL : process.env.LOCAL_CLIENT_URL;
+    const redirectURL = configs.node_env === "production" ? configs.live_client_url : configs.local_client_url;
 
     // Cookie options
     const cookieOptions: ICookieOptions = {
-        httpOnly: process.env.NODE_ENV === 'production',
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-        secure: process.env.NODE_ENV === 'production',
+        httpOnly: configs.node_env === 'production',
+        sameSite: configs.node_env === 'production' ? 'none' : 'lax',
+        secure: configs.node_env === 'production',
         expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
     };
 
