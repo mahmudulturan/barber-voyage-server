@@ -1,22 +1,38 @@
-import { NextFunction, Request, Response } from "express";
+import { ErrorRequestHandler, NextFunction, Request, Response } from "express";
 import { MongooseError } from "mongoose";
+import { TErrorSources } from "../interfaces/error";
+import handleValidationError from "../errors/handleValidationError";
+import configs from "../configs";
+import handleDuplicateError from "../errors/handleDuplicateError";
 
-const errorHandler = (err: MongooseError, req: Request, res: Response, next: NextFunction) => {
-    let statusCode = 0;
-    let errorMessage = "";
+const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
 
+    let status = 500;
+    let message = 'Something Went Wrong';
+    let errorMessages: TErrorSources = [
+        {
+            path: "",
+            message: ""
+        }
+    ]
 
-    // set the code and error message with error name
-    if (err.name === 'ValidationError') {
-        statusCode = 400;
-        errorMessage = err.message;
-    } else {
-        statusCode = 500;
-        errorMessage = "Server Broke!!"
+    if (err.name === 'ValidationError') {                 // handle mongoose validation error
+        const simplifiedMongooseError = handleValidationError(err);
+        errorMessages = simplifiedMongooseError.errorSources;
+        status = simplifiedMongooseError.statusCode;
+        message = simplifiedMongooseError.message;
+    } else if (err.code === 11000) {                             // handle duplicate error with code 1000
+        const simplifiedDuplicateError = handleDuplicateError(err);
+        status = simplifiedDuplicateError?.statusCode;
+        message = simplifiedDuplicateError?.message;
+        errorMessages = simplifiedDuplicateError?.errorSources;
     }
 
-    // send the error status and error message
-    res.status(statusCode).send({ success: false, error: errorMessage });
+    res.status(status).send({
+        success: false,
+        message,
+        errorMessages,
+        stack: configs.node_env === "development" ? err.stack : null
+    })
 }
-
-export default errorHandler;
+export default globalErrorHandler;
