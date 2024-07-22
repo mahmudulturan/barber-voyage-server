@@ -4,14 +4,13 @@ import passport from 'passport';
 import cookieParser from 'cookie-parser';
 import errorHandler from './app/middlewares/errorHandler';
 import session from 'express-session';
+import configs from './app/configs';
+import routes from './app/routes';
 
 
 // configs
 import './app/configs/database';
 import './app/configs/passport';
-import configs from './app/configs';
-import routes from './app/routes';
-
 
 // create app
 const app = express();
@@ -34,7 +33,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-
+// routes
 app.use("/api/v1", routes)
 
 // home route of this server
