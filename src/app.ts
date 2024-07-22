@@ -4,21 +4,21 @@ import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import passport from 'passport';
 import cookieParser from 'cookie-parser';
-import errorHandler from './errorHandlers/errorHandler';
+import errorHandler from './app/middlewares/errorHandler';
 import session from 'express-session';
 
 // routes
-import authRoutes from './routes/auth.routes';
-import userRoutes from './routes/user.routes';
-import barberRoutes from './routes/barber.routes';
-import ownerRoutes from './routes/owner.routes';
-import bookingRoutes from './routes/booking.routes';
-import paymentRoutes from './routes/payment.routes';
-import reviewRoutes from './routes/review.routes';
+import authRoutes from './app/modules/auth/auth.routes';
+import userRoutes from './app/modules/user/user.routes';
+import barberRoutes from './app/modules/barber/barber.routes';
+import ownerRoutes from './app/modules/owner/owner.routes';
+import bookingRoutes from './app/modules/booking/booking.routes';
+import paymentRoutes from './app/modules/payment/payment.routes';
+import reviewRoutes from './app/modules/review/review.routes';
 
 // configs
-import './configs/database';
-import './configs/passport';
+import './app/configs/database';
+import './app/configs/passport';
 
 
 // create app
