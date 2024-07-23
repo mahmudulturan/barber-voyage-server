@@ -2,6 +2,8 @@ import { NextFunction, Request, Response } from "express";
 import User from "../user/user.model";
 import Barber from "./barber.model";
 import catchAsync from "../../utils/catchAsync";
+import sendResponse from "../../utils/sendResponse";
+import AppError from "../../errors/AppError";
 
 
 // controller for register a new barber
@@ -17,7 +19,7 @@ const barberRegister = catchAsync(async (req: Request, res: Response, next: Next
     const { user, experience, specialties, document } = req.body;
     const newBarber = new Barber({ user, experience, specialties, document });
     await newBarber.save();
-    res.status(201).send({ success: true, message: "Successfully registered as a barber!" });
+    sendResponse(res, 201, "Successfully registered as a barber!", newBarber);
 })
 
 
@@ -30,7 +32,7 @@ const verifyBarber = catchAsync(async (req: Request, res: Response, next: NextFu
 
     // if barber or user dont exist then send a error message
     if (!barber || !user) {
-        return res.status(404).send({ success: false, message: "Verification failed!" });
+        throw new AppError(404, "Verification failed!")
     }
 
     // change the verification status and change the user role
@@ -39,7 +41,7 @@ const verifyBarber = catchAsync(async (req: Request, res: Response, next: NextFu
 
     await barber.save();
     await user.save();
-    res.status(200).send({ success: true, message: `Successfully updated to ${status}` });
+    sendResponse(res, 200, `Successfully updated to ${status}`, barber);
 })
 
 export const barberControllers = {

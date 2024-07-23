@@ -6,6 +6,8 @@ import { IUser } from "../user/user.interfaces";
 import { ICookieOptions } from "../../interfaces/cookie";
 import configs from "../../configs";
 import catchAsync from "../../utils/catchAsync";
+import sendResponse from "../../utils/sendResponse";
+import AppError from "../../errors/AppError";
 
 const saltRounds = 10;
 
@@ -16,7 +18,7 @@ const registerUser = catchAsync(async (req: Request & { body: IUser }, res: Resp
     // find the user if exist return a message
     const isUserExist = await User.findOne({ email: email });
     if (isUserExist) {
-        return res.status(409).send({ success: false, error: "This email already exist!" })
+        throw new AppError(409, "This email already exist!")
     }
 
     // hashing the password before saving database 
@@ -29,7 +31,7 @@ const registerUser = catchAsync(async (req: Request & { body: IUser }, res: Resp
                 ...rest
             })
             await newUser.save();
-            res.status(201).send({ success: true, message: "User created successfully!" });
+            sendResponse(res, 201, "User created successfully!", newUser);
         } catch (error) {
             next(error);
         }
@@ -43,12 +45,12 @@ const loginUser = catchAsync(async (req: Request, res: Response, next: NextFunct
     // find the user by email and if not found then return a message
     const user = await User.findOne({ email: email });
     if (!user) {
-        return res.status(404).send({ success: false, error: "User not found!" })
+        throw new AppError(404, "User not found!")
     }
 
     // compare the hashing password
     if (typeof password === 'undefined') {
-        return res.status(400).send({ success: false, error: "Password is required!" });
+        throw new AppError(400, "Password is required!");
     }
 
     // compare the hashing password
@@ -57,8 +59,8 @@ const loginUser = catchAsync(async (req: Request, res: Response, next: NextFunct
         if (result) {
 
             // genarate a token
-            const tokenSecret = configs.jwt_token;
-            if (!tokenSecret) throw new Error("JWT_TOKEN is missing in env file");
+            const tokenSecret = configs.jwt_token as string;
+
             const userData = { email: user.email, id: user._id };
             const token = jwt.sign(userData, tokenSecret, { expiresIn: "30d" })
 
@@ -74,10 +76,10 @@ const loginUser = catchAsync(async (req: Request, res: Response, next: NextFunct
 
             return res.status(200)
                 .cookie("token", token, cookieOptions)
-                .send({ success: true, message: "Login Successful!", user: user });
+                .send({ success: true, message: "Login Successful!", data: userInfo });
         }
         else {
-            return res.status(401).send({ success: false, message: "Wrong Password!" });
+            throw new AppError(401, "Wrong Password!")
         }
     })
 
@@ -101,8 +103,7 @@ const logoutUser = catchAsync(async (req: Request, res: Response, next: NextFunc
 
 // Controller function for handling Google authentication callback
 const loginWithGoogle = (req: Request, res: Response) => {
-    const tokenSecret = configs.jwt_token;
-    if (!tokenSecret) throw new Error("JWT_TOKEN is missing in env file");
+    const tokenSecret = configs.jwt_token as string;
 
     const user: any = req.user;
 

@@ -4,6 +4,8 @@ import Barber from "../barber/barber.model";
 import Shop from "../shop/shop.model";
 import User from "../user/user.model";
 import catchAsync from "../../utils/catchAsync";
+import AppError from "../../errors/AppError";
+import sendResponse from "../../utils/sendResponse";
 
 // controller for create a new booking
 const createBooking = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
@@ -29,12 +31,8 @@ const createBooking = catchAsync(async (req: Request, res: Response, next: NextF
 
     // if shop or barber or user is not found then send a message
     if (!shop || !barber || !user) {
-        return res.status(404).send(
-            {
-                success: false,
-                error: shop && "Shop not found!" || !barber && "Barber not found!" || !user && "User not found!"
-            }
-        );
+        const errMsg = !shop && "Shop not found!" || !barber && "Barber not found!" || !user && "User not found!";
+        throw new AppError(404, errMsg as string);
     }
 
     // push the booking id on shop, barber and user's bookings property
@@ -44,7 +42,7 @@ const createBooking = catchAsync(async (req: Request, res: Response, next: NextF
 
     // save to db and send a success message
     await Promise.all([newBooking.save(), user.save(), shop.save(), barber.save()]);
-    res.status(201).send({ success: true, message: "Booking successfull" });
+    sendResponse(res, 201, "Booking successfull!", newBooking);
 })
 
 
@@ -56,14 +54,14 @@ const changeBookingStatus = catchAsync(async (req: Request, res: Response, next:
 
     // if booking is not found then send a error message
     if (!booking) {
-        return res.status(404).send({ succes: false, error: "Booking not found!" });
+        throw new AppError(404, "Booking not found!");
     }
 
     // change booking status
     booking.bookingStatus = status;
 
     await booking.save();
-    res.status(201).send({ success: true, message: `Booking ${status}` });
+    sendResponse(res, 201, `Booking ${status}`, booking)
 })
 
 export const bookingControllers = {

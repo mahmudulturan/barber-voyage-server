@@ -3,6 +3,8 @@ import Review from "./review.model";
 import Barber from "../barber/barber.model";
 import Shop from "../shop/shop.model";
 import catchAsync from "../../utils/catchAsync";
+import AppError from "../../errors/AppError";
+import sendResponse from "../../utils/sendResponse";
 
 
 const addReview = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
@@ -23,12 +25,8 @@ const addReview = catchAsync(async (req: Request, res: Response, next: NextFunct
 
     // if shop or barber or user is not found then send a message
     if (!shop || !barber) {
-        return res.status(404).send(
-            {
-                success: false,
-                error: shop && "Shop not found!" || !barber && "Barber not found!"
-            }
-        );
+        throw new AppError(404, (shop && "Shop not found!" || !barber && "Barber not found!") as string);
+
     }
 
     // push new Review id on reviews property of shop and barber
@@ -37,7 +35,7 @@ const addReview = catchAsync(async (req: Request, res: Response, next: NextFunct
 
     await Promise.all([newReview.save(), shop.save(), barber.save()]);
 
-    res.status(201).send({ success: true, message: "Review Posted" });
+    sendResponse(res, 201, "Review Posted!", newReview);
 })
 
 export const reviewControllers = {
