@@ -1,14 +1,13 @@
-import { NextFunction, Request, Response } from "express";
-import Payment from "./payment.model";
+import { Request, Response } from "express";
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
+import { paymentServices } from "./payment.services";
 
 // controller for create a new payment
-const createPayment = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const { bookingId, userId, amount, transactionID } = req.body;
-    const newPayment = new Payment({ booking: bookingId, user: userId, amount, transactionID })
-    await newPayment.save();
-    sendResponse(res, 201, "Payment Sucessfull", newPayment);
+const createPayment = catchAsync(async (req: Request, res: Response) => {
+    const data = req.body;
+    const result = paymentServices.createPaymentIntoDb(data);
+    sendResponse(res, 201, "Payment Sucessfull", result);
 })
 
 export const paymentControllers = {
