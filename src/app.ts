@@ -1,25 +1,17 @@
-import { config as dotenvConfig } from 'dotenv';
-dotenvConfig();
 import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import passport from 'passport';
 import cookieParser from 'cookie-parser';
-import errorHandler from './errorHandlers/errorHandler';
 import session from 'express-session';
+import configs from './app/configs';
+import routes from './app/routes';
 
-// routes
-import authRoutes from './routes/auth.routes';
-import userRoutes from './routes/user.routes';
-import barberRoutes from './routes/barber.routes';
-import ownerRoutes from './routes/owner.routes';
-import bookingRoutes from './routes/booking.routes';
-import paymentRoutes from './routes/payment.routes';
-import reviewRoutes from './routes/review.routes';
 
 // configs
-import './configs/database';
-import './configs/passport';
-
+import './app/configs/database';
+import './app/configs/passport';
+import globalErrorHandler from './app/middlewares/globalErrorHandler';
+import notFoundErrorHandler from './app/middlewares/notFoundErrorHandler';
 
 // create app
 const app = express();
@@ -28,44 +20,33 @@ const app = express();
 // middlewares
 app.use(express.json());
 app.use(cors({
-    origin: ["http://localhost:3000" || "", process.env.LIVE_CLIENT_URL || ""],
+    origin: [configs.local_client_url as string, configs.live_client_url as string],
     credentials: true
 }));
 app.use(cookieParser());
 app.use(session({
-    secret: process.env.GOOGLE_SESSION_SECRET || "",
+    secret: configs.google_session_secret || "",
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: process.env.NODE_ENV === 'production' }
+    cookie: { secure: configs.node_env === 'production' }
 }))
 app.use(passport.initialize());
 app.use(passport.session());
 
 
-// all routes
-
-// routes for authentication;
-app.use('/api/v1/auth', authRoutes);
-app.use('/api/v1/user', userRoutes);
-app.use('/api/v1/barber', barberRoutes);
-app.use('/api/v1/owner', ownerRoutes);
-app.use('/api/v1/booking', bookingRoutes);
-app.use('/api/v1/payment', paymentRoutes);
-app.use('/api/v1/review', reviewRoutes);
-
+// routes
+app.use("/api/v1", routes)
 
 // home route of this server
 app.get('/', (req: Request, res: Response) => {
     res.send("Wellcome to Barber Voyage server")
 })
 
-// response for not found route
-app.use((req: Request, res: Response, next: NextFunction) => {
-    res.status(404).send({ message: "The specified route cannot be located or identified." })
-})
+// handling not found route error
+app.use(notFoundErrorHandler);
 
-// Use the error handler middleware
-app.use(errorHandler);
+// handling all erorrs in one error handling middleware
+app.use(globalErrorHandler);
 
 
 export default app;
